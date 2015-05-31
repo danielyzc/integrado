@@ -1,0 +1,10 @@
+/* @group Base */
+.titulo_one {
+  text-align: center; font-size: 21px; font-style: italic; text-decoration-line: underline;
+}
+.texto_columna_tabla {
+ font-size: 12px; text-align:left;border:1px ;border-width:1px 0;
+}
+.texto_modal {
+ font-size: 12px; text-align:left;border:1px ;border-width:1px 0;
+}

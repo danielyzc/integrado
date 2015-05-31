@@ -1,0 +1,125 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"    
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+      > 
+    <h:head>
+
+    </h:head>
+
+    <h:body>
+        <ui:composition template="/master/index.xhtml">
+
+            <ui:define name="content">
+                <h:form id="form">
+                    <p:growl id="messages" showDetail="true" />
+                   <center><h:outputText value="UBICACIÓN FISICA" styleClass="titulo_one"/></center> 
+                    <p:commandButton value="CREAR NUEVO ITEM" actionListener="#{managedBeanUbicacionFisica.preparaNew()}" oncomplete="PF('dlgeNew').show();" update=":frm_new:datos"/>
+
+                  
+                    <p:dataTable id="tabla" var="item" value="#{managedBeanUbicacionFisica.listaObjeto}" rows="7"
+                                 paginator="true"
+                                 paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                 rowsPerPageTemplate="5,10,15">
+                        <f:facet name="header">
+                            LISTA DE ITEMS
+                        </f:facet>
+                        <p:column headerText="NOMBRE" filterBy="#{item.nombreUbicacionFisica}" filterMatchMode="contains">
+                            <h:outputText styleClass="texto_columna_tabla" value="#{item.nombreUbicacionFisica}" />
+                        </p:column>
+
+                        <p:column headerText="DESCRIPCIÓN" >
+                            <h:outputText styleClass="texto_columna_tabla" value="#{item.descripcionUbicacionFisica}" />
+                        </p:column>
+
+                        <p:column style="width: 95px;" >
+
+                            <p:commandButton value="EDITAR" oncomplete="PF('dlgEdit').show();" update=":frm_edit:datos">
+                                <f:setPropertyActionListener value="#{item}" target="#{managedBeanUbicacionFisica.objetoSeleccionado}" />
+                            </p:commandButton>
+
+
+                        </p:column>
+
+                        <p:column style="width: 95px;">
+
+                            <p:commandButton value="ELIMINAR" oncomplete="PF('dlgDelete').show();" update=":frm_delete:datos">
+                                <f:setPropertyActionListener value="#{item}" target="#{managedBeanUbicacionFisica.objetoSeleccionado}" />
+                            </p:commandButton>
+
+
+                        </p:column>
+
+                        <f:facet name="footer">
+                            SE ENCONTRARON #{fn:length(managedBeanUbicacionFisica.listaObjeto)} ITEMS.
+                        </f:facet>
+                    </p:dataTable>
+                </h:form>
+
+
+
+                <h:form id="frm_new">
+
+                    <p:dialog resizable="false" width="350px;" id="dialogNew" header="NUEVO ITEM" widgetVar="dlgeNew" showEffect="fade" hideEffect="fade" modal="true" height="250px;">  
+
+                        <h:panelGrid id="datos" columns="2" >
+                            <h:outputText value="NOMBRE:" styleClass="texto_modal" />
+                            <p:inputText placeholder="INGRESE NOMBRE"  value="#{managedBeanUbicacionFisica.objetoCrear.nombreUbicacionFisica}" />
+                            <h:outputText value="DESCRIPCION" styleClass="texto_modal"/>
+                            <p:inputTextarea autoResize="false" placeholder="INGRESE DESCRIPCIÓN"  value="#{managedBeanUbicacionFisica.objetoCrear.descripcionUbicacionFisica}" />
+
+
+                        </h:panelGrid>
+                        <p:separator />
+                        <center><p:commandButton value="GRABAR" update=":form:messages :form:tabla" oncomplete="PF('dlgeNew').hide();" actionListener="#{managedBeanUbicacionFisica.crear()}" /></center> 
+
+                    </p:dialog>  
+
+                </h:form>
+
+
+                <h:form id="frm_edit">
+
+                    <p:dialog resizable="false" width="350px;" id="dialogEdit" header="EDITAR ITEM" widgetVar="dlgEdit" showEffect="fade" hideEffect="fade" modal="true" height="250px;">  
+
+                        <h:panelGrid id="datos" columns="2" >
+
+                            <h:outputText value="NOMBRE:" styleClass="texto_modal"/>
+                            <p:inputText placeholder="INGRESE NOMBRE" value="#{managedBeanUbicacionFisica.objetoSeleccionado.nombreUbicacionFisica}" />
+                            <h:outputText value="DESCRIPCION" styleClass="texto_modal"/>
+                            <p:inputTextarea autoResize="false" placeholder="INGRESE DESCRIPCIÓN" value="#{managedBeanUbicacionFisica.objetoSeleccionado.descripcionUbicacionFisica}" />
+
+                        </h:panelGrid>
+                        <p:separator />
+                        <p:commandButton value="GRABAR" update=":form:messages :form:tabla" oncomplete="PF('dlgEdit').hide();" actionListener="#{managedBeanUbicacionFisica.editar()}" />
+
+                    </p:dialog>  
+
+                </h:form>
+
+                <h:form id="frm_delete">
+
+                    <p:dialog resizable="false" width="350px;" id="dialogDelete" header="ELIMINAR ITEM" widgetVar="dlgDelete" showEffect="fade" hideEffect="fade" modal="true" height="250px;">  
+
+                        <h:panelGrid id="datos" columns="2" >
+
+                            <h:outputText value="NOMBRE:" styleClass="texto_modal"/>
+                            <p:inputText placeholder="INGRESE NOMBRE" value="#{managedBeanUbicacionFisica.objetoSeleccionado.nombreUbicacionFisica}" />
+                            <h:outputText value="DESCRIPCION" styleClass="texto_modal"/>
+                            <p:inputTextarea autoResize="false" placeholder="INGRESE DESCRIPCIÓN" value="#{managedBeanUbicacionFisica.objetoSeleccionado.descripcionUbicacionFisica}" />
+
+                        </h:panelGrid>
+                        <p:separator />
+                        <p:commandButton value="GRABAR" update=":form:messages :form:tabla" oncomplete="PF('dlgDelete').hide();" actionListener="#{managedBeanUbicacionFisica.eliminar()}" />
+
+                    </p:dialog>  
+
+                </h:form>
+            </ui:define>
+        </ui:composition>
+    </h:body>
+</html>
